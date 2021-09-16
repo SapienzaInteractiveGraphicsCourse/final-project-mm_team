@@ -1,0 +1,1088 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>Nate's Adventure</title>
+		<style>
+			body { margin: 0; }
+		</style>
+		 <link rel="stylesheet" type="text/css" href="index.css"/>
+	</head>
+	<body>
+	<!--	<script src="js/three.js"></script> -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js" integrity="sha512-lIKG1kC5TMb1Zx32vdz1n31YJMZRknVY20U9MJ28hD3y2c0OKN0Ce5NhJji78v8zX5UOSsm+MTBOcJt7yMBnSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+		<script src='./js/threex.domevent.js'> </script>
+		<script type="module">
+
+		 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
+		 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
+		import { GUI } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/libs/dat.gui.module.js';
+		//import { Interaction } from './js/three.interaction.js-master/src/interaction/Interaction.js';
+		//import { Interaction } from './three.interaction/src/interaction/Interaction.js';
+
+
+
+			// Our Javascript will go here.
+
+			var flag = true;
+
+			const loader = new THREE.TextureLoader();
+
+			const scene = new THREE.Scene();
+			const camera = new THREE.PerspectiveCamera( 75, window.innerWidth / window.innerHeight, 0.1, 1000 );
+
+			scene.background = loader.load('./resources/jungla5.png');//new THREE.Color(0x127CFF);  //posso applicare una texture come background DEVO USARE UN SERVER
+
+
+			const renderer = new THREE.WebGLRenderer();
+			renderer.setSize( window.innerWidth, window.innerHeight );
+			document.body.appendChild( renderer.domElement );
+
+			//CAMERA DINAMICA (?)
+			const controls = new OrbitControls(camera, renderer.domElement);
+
+			camera.position.set(0, 6, 12.5);
+			controls.update();
+
+
+			//PROVE DI PROGETTO: PIATTAFORMA BASE
+			const geometryPlane = new THREE.BoxGeometry(13, 0.1, 10);
+			const basePlaneMaterial = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
+
+			const basePlaneTexture = loader.load('./resources/rock2.png');
+			const basePlaneText = new THREE.MeshBasicMaterial({
+			//color: 0xFF8844,
+			map: basePlaneTexture, //loader.load('ground1.png'),
+			});
+
+			basePlaneTexture.wrapS = THREE.RepeatWrapping;
+			basePlaneTexture.wrapT = THREE.RepeatWrapping;
+			basePlaneTexture.repeat.set(8,6);
+
+			const basePlane = new THREE.Mesh(geometryPlane, basePlaneText);
+			scene.add(basePlane);
+
+			//piattaforma 1
+			const geometryPlat1 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
+			const Plat1Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
+			const platTexture = loader.load('./resources/rock1.png');
+			const platText = new THREE.MeshBasicMaterial({
+			//color: 0xFF8844,
+			map: platTexture, //loader.load('ground1.png'),
+			});
+
+
+
+			const materials = [
+  		new THREE.MeshBasicMaterial({map: platTexture}),
+  		new THREE.MeshBasicMaterial({map: loader.load('./resources/rock1.png')}),
+			new THREE.MeshBasicMaterial({map: loader.load('./resources/rock1.png')})
+
+		];
+
+		platTexture.wrapS = THREE.RepeatWrapping;
+		platTexture.wrapT = THREE.RepeatWrapping;
+		platTexture.repeat.set(3,1);
+
+			const startPlatGeometry = new THREE.CylinderGeometry(0.4, 0.4, 0.5, 10);
+			const startPlat = new THREE.Mesh(startPlatGeometry, materials);
+			startPlat.position.y = 0.3;
+			startPlat.position.z = 2.6;
+			startPlat.position.x = -3.3;
+			scene.add(startPlat);
+
+			const plat1 = new THREE.Mesh(geometryPlat1, materials);
+			plat1.position.y = 0.5;
+			plat1.position.z = 2.5;
+			plat1.position.x = -1.5;
+			scene.add(plat1);
+
+			//piatta 2
+			const geometryPlat2 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
+			const Plat2Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
+			const plat2 = new THREE.Mesh(geometryPlat2, materials);
+			plat2.position.y = 2;
+			plat2.position.z = 1;
+			plat2.position.x = 3.5;
+			scene.add(plat2);
+
+
+
+			//ponte tra plat1 e plat 2
+			const geometryBridge1 = new THREE.BoxGeometry(5, 0.1, 1);
+			const bridge1Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
+			const bridgeTexture = loader.load('./resources/bridge.png');
+			const bridgeText = new THREE.MeshBasicMaterial({
+			//color: 0xFF8844,
+			map: bridgeTexture, //loader.load('ground1.png'),
+			});
+
+			bridgeTexture.wrapS = THREE.RepeatWrapping;
+			bridgeTexture.wrapT = THREE.RepeatWrapping;
+			bridgeTexture.repeat.set(5,1);
+
+			const bridge1 = new THREE.Mesh(geometryBridge1, bridgeText);
+			bridge1.position.x = 0.2;
+			bridge1.position.y = 1.6;
+			bridge1.position.z = 2.3;
+
+			bridge1.rotation.y = 0.5;
+			bridge1.rotation.z = 0.43;
+			scene.add(bridge1);
+
+			//piatta 3
+			const geometryPlat3 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
+			const Plat3Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
+			const plat3 = new THREE.Mesh(geometryPlat3, materials);
+			plat3.position.y = 2.5;
+			plat3.position.z = -2.6;
+			plat3.position.x = 3.5;
+			scene.add(plat3);
+
+			//piatta 4
+			const geometryPlat4 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
+			const Plat4Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
+			const plat4 = new THREE.Mesh(geometryPlat4, materials);
+			plat4.position.y = 2.5;
+			plat4.position.z = -2.6;
+			plat4.position.x = -3.5;
+			scene.add(plat4);
+
+			//ponte tra piatta 3 e piatta 4
+			const geometryBridge6 = new THREE.BoxGeometry(5, 0.1, 1);
+			const bridge6 = new THREE.Mesh(geometryBridge6, bridgeText);
+			bridge6.position.x = 0;
+			bridge6.position.y = 3;
+			bridge6.position.z = -2.6;
+
+			//bridge1.rotation.y = 0.5;
+			//bridge1.rotation.z = 0.43;
+			scene.add(bridge6);
+
+			//piatta 5
+			const geometryPlat5 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
+			const Plat5Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
+			const plat5 = new THREE.Mesh(geometryPlat5, materials);
+			plat5.position.y = 4.5;
+			plat5.position.z = 4;
+			plat5.position.x = -3.5;
+			scene.add(plat5);
+
+			//pedane tra plat4 e plat5
+			const geometryBridge2 = new THREE.BoxGeometry(0.8, 0.1, 0.8);
+			const bridge2Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
+			const pedanaTexture = loader.load('./resources/pedana.png');
+			const pedanaText = new THREE.MeshBasicMaterial({
+			//color: 0xFF8844,
+			map: pedanaTexture, //loader.load('ground1.png'),
+		});
+			const bridge2 = new THREE.Mesh(geometryBridge2, pedanaText);
+			bridge2.position.x = -3.5;
+			bridge2.position.y = 3.05;
+			bridge2.position.z = -1.2;
+			scene.add(bridge2);
+
+			const geometryBridge3 = new THREE.BoxGeometry(0.8, 0.1, 0.8);
+			const bridge3Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
+			const bridge3 = new THREE.Mesh(geometryBridge3, pedanaText);
+			bridge3.position.x = -3.5;
+			bridge3.position.y = 3.5;
+			bridge3.position.z = 0;
+			scene.add(bridge3);
+
+			const geometryBridge4 = new THREE.BoxGeometry(0.8, 0.1, 0.8);
+			const bridge4Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
+			const bridge4 = new THREE.Mesh(geometryBridge4, pedanaText);
+			bridge4.position.x = -3.5;
+			bridge4.position.y = 4;
+			bridge4.position.z = 1;
+			scene.add(bridge4);
+
+			const geometryBridge5 = new THREE.BoxGeometry(0.8, 0.1, 0.8);
+			const bridge5Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
+			const bridge5 = new THREE.Mesh(geometryBridge5, pedanaText);
+			bridge5.position.x = -3.5;
+			bridge5.position.y = 4.5;
+			bridge5.position.z = 2;
+			scene.add(bridge5);
+
+			//piatta di arrivo
+			const geometryPlat6 = new THREE.BoxGeometry(3, 1, 5);
+			const plat6Texture = loader.load('./resources/rock1.png');
+			const plat6Text = new THREE.MeshBasicMaterial({
+			//color: 0xFF8844,
+			map: plat6Texture, //loader.load('ground1.png'),
+			});
+			const plat6 = new THREE.Mesh(geometryPlat6, plat6Text);
+			plat6.position.x = 5;
+			plat6.position.y = 6;
+			plat6.position.z = 1;
+			scene.add(plat6);
+
+			//piattaforme di arrivo a finale + ponte
+			const geometryPlat7 = new THREE.CylinderGeometry(0.5, 0.5, 0.5, 10);
+			const plat7 = new THREE.Mesh(geometryPlat7, materials);
+			plat7.position.y = 4.8;
+			plat7.position.z = 1.8;
+			plat7.position.x = -0.5;
+			scene.add(plat7);
+
+			const geometryPlat8 = new THREE.CylinderGeometry(0.8, 0.8, 0.5, 10);
+			const plat8 = new THREE.Mesh(geometryPlat8, materials);
+			plat8.position.y = 5.5;
+			plat8.position.z = 3.8;
+			plat8.position.x = 1.5;
+			scene.add(plat8);
+
+			const geometryBridge7 = new THREE.BoxGeometry(2.5, 0.08, 0.8);
+			const bridge7 = new THREE.Mesh(geometryBridge7, bridgeText);
+			bridge7.position.x = 2.7;
+			bridge7.position.y = 6.1;
+			bridge7.position.z = 3.1;
+			bridge7.rotation.z = 0.5;
+			bridge7.rotation.y = 0.5;
+			scene.add(bridge7);
+
+			//arco
+			const geometryColonna = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonnaMaterial = new THREE.MeshBasicMaterial( { color: 0x7D716B } );
+			const colonnaTexture =  loader.load('./resources/marmo.png');
+			const colonnaText = new THREE.MeshPhongMaterial({
+			//color: 0xFF8844,
+			map: colonnaTexture, //loader.load('ground1.png'),
+			shininess: 130,
+			flatShading: true,
+			});
+			const colonna = new THREE.Mesh(geometryColonna, colonnaText);
+
+			colonnaTexture.wrapS = THREE.RepeatWrapping;
+			colonnaTexture.wrapT = THREE.RepeatWrapping;
+			colonnaTexture.repeat.set(1,2);
+
+			colonna.position.x = 3.6;
+			colonna.position.y = 7;
+			colonna.position.z = -0.3;
+			scene.add(colonna);
+
+			const geometryColonna1 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna1 = new THREE.Mesh(geometryColonna1, colonnaText);
+			colonna1.position.x = 3.6;
+			colonna1.position.y = 7;
+			colonna1.position.z = -0.8;
+			scene.add(colonna1);
+
+			const geometryColonna2 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna2 = new THREE.Mesh(geometryColonna2, colonnaText);
+			colonna2.position.x = 3.6;
+			colonna2.position.y = 7;
+			colonna2.position.z = -1.3;
+			scene.add(colonna2);
+
+			const geometryColonna3 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna3 = new THREE.Mesh(geometryColonna3, colonnaText);
+			colonna3.position.x = 4.1;
+			colonna3.position.y = 7;
+			colonna3.position.z = -1.3;
+			scene.add(colonna3);
+
+			const geometryColonna4 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna4 = new THREE.Mesh(geometryColonna4, colonnaText);
+			colonna4.position.x = 4.6;
+			colonna4.position.y = 7;
+			colonna4.position.z = -1.3;
+			scene.add(colonna4);
+
+			const geometryColonna5 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna5 = new THREE.Mesh(geometryColonna5, colonnaText);
+			colonna5.position.x = 5.3;
+			colonna5.position.y = 7;
+			colonna5.position.z = -1.3;
+			scene.add(colonna5);
+
+			const geometryColonna6 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna6 = new THREE.Mesh(geometryColonna6, colonnaText);
+			colonna6.position.x = 5.8;
+			colonna6.position.y = 7;
+			colonna6.position.z = -1.3;
+			scene.add(colonna6);
+
+			const geometryColonna7 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna7 = new THREE.Mesh(geometryColonna7, colonnaText);
+			colonna7.position.x = 6.4;
+			colonna7.position.y = 7;
+			colonna7.position.z = -1.3;
+			scene.add(colonna7);
+
+			const geometryColonna8 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna8 = new THREE.Mesh(geometryColonna8, colonnaText);
+			colonna8.position.x = 6.4;
+			colonna8.position.y = 7;
+			colonna8.position.z = -0.8;
+			scene.add(colonna8);
+
+			const geometryColonna9 = new THREE.CylinderGeometry(0.1, 0.1, 1.5, 50);
+			const colonna9 = new THREE.Mesh(geometryColonna9, colonnaText);
+			colonna9.position.x = 6.4;
+			colonna9.position.y = 7;
+			colonna9.position.z = -0.3;
+			scene.add(colonna9);
+
+			const geometryColonna10 = new THREE.CylinderGeometry(0.1, 0.1, 0.5, 50);
+			const colonna10 = new THREE.Mesh(geometryColonna10, colonnaText);
+			colonna10.position.x = 6.4;
+			colonna10.position.y = 6.77;
+			colonna10.position.z = 0.2;
+			scene.add(colonna10);
+
+			const geometryColonna11 = new THREE.CylinderGeometry(0.1, 0.1, 0.8, 50);
+			const colonna11 = new THREE.Mesh(geometryColonna11, colonnaText);
+			colonna11.position.x = 3.6;
+			colonna11.position.y = 6.9;
+			colonna11.position.z = 0.9;
+			scene.add(colonna11);
+
+			const geometryColonna12 = new THREE.CylinderGeometry(0.1, 0.1, 0.4, 50);
+			const colonna12 = new THREE.Mesh(geometryColonna12, colonnaText);
+			colonna12.position.x = 6.4;
+			colonna12.position.y = 6.7;
+			colonna12.position.z = 1.5;
+			scene.add(colonna12);
+
+			const geometryColonna13 = new THREE.CylinderGeometry(0.1, 0.1, 0.9, 50);
+			const colonna13 = new THREE.Mesh(geometryColonna13, colonnaText);
+			colonna13.position.x = 6.4;
+			colonna13.position.y = 6.7;
+			colonna13.position.z = 2.8;
+			scene.add(colonna13);
+
+			const geometryColonna14 = new THREE.CylinderGeometry(0.1, 0.1, 0.3, 50);
+			const colonna14 = new THREE.Mesh(geometryColonna14, colonnaText);
+			colonna14.position.x = 3.6;
+			colonna14.position.y = 6.6;
+			colonna14.position.z = 1.7;
+			scene.add(colonna14);
+
+			const geometryTempio1 = new THREE.CylinderGeometry(0, 2.2, 0.6, 4);
+			const tempio1Texture =  loader.load('./resources/marmo.png');
+			const tempio1Text = new THREE.MeshPhongMaterial({
+			//color: 0xFF8844,
+			map: tempio1Texture, //loader.load('ground1.png'),
+			shininess: 130,
+			flatShading: true,
+			});
+			const tempio1 = new THREE.Mesh(geometryTempio1, tempio1Text);
+
+			tempio1Texture.wrapS = THREE.RepeatWrapping;
+			tempio1Texture.wrapT = THREE.RepeatWrapping;
+			tempio1Texture.repeat.set(5,1);
+
+			tempio1.position.x = 5;
+			tempio1.position.y = 8.05;
+			tempio1.position.z = -0.8;
+			tempio1.rotation.y = -0.76;
+			//tempio1.scale.set(5, 5, 1);
+			scene.add(tempio1);
+
+			//elementi di Environmente (PROVVISORIO) alberi, etc...
+			const geometryTronco = new THREE.CylinderGeometry(0.1, 0.1, 1.3, 50);
+			const troncoTexture = new THREE.MeshBasicMaterial({
+				map: loader.load('./resources/pedana.png'),
+			});
+			const tronco = new THREE.Mesh(geometryTronco, troncoTexture);
+			tronco.position.y = 0.7;
+			tronco.position.x = -6;
+
+			scene.add(tronco);
+
+			const geometryFoglie = new THREE.DodecahedronGeometry(0.7, 1);
+			const foglieTexture = new THREE.MeshPhongMaterial({
+				map: loader.load('./resources/foglie.png'),
+				shininess: 50,
+				flatShading: true,
+			});
+			const foglie = new THREE.Mesh(geometryFoglie, foglieTexture);
+			foglie.position.y = 0.9
+			tronco.add(foglie);
+
+			const tronco1 =  new THREE.Mesh(geometryTronco, troncoTexture);
+			const foglie1 = new THREE.Mesh(geometryFoglie, foglieTexture);
+			tronco1.position.x = 6;
+			tronco1.position.y = 0.7;
+			tronco1.position.z = 4;
+			foglie1.position.y = 1;
+			scene.add(tronco1);
+			tronco1.add(foglie1);
+
+			const tronco2 = new THREE.Mesh(geometryTronco, troncoTexture);
+			const foglie2 = new THREE.Mesh(geometryFoglie, foglieTexture);
+			tronco2.position.z = -3;
+			tronco2.position.y = 0.7;
+			foglie2.position.y = 1;
+			scene.add(tronco2);
+			tronco2.add(foglie2);
+
+			const tronco3 = new THREE.Mesh(geometryTronco, troncoTexture);
+			const foglie3 = new THREE.Mesh(geometryFoglie, foglieTexture);
+			tronco3.position.z = -4;
+			tronco3.position.x = 6;
+			tronco3.position.y = 0.7;
+			foglie3.position.y = 1;
+			scene.add(tronco3);
+			tronco3.add(foglie3);
+
+			const tronco4 = new THREE.Mesh(geometryTronco, troncoTexture);
+			const foglie4 = new THREE.Mesh(geometryFoglie, foglieTexture);
+			tronco4.position.z = -4.8;
+			tronco4.position.x = -6;
+			tronco4.position.y = 0.7;
+			foglie4.position.y = 1;
+			scene.add(tronco4);
+			tronco4.add(foglie4);
+
+
+			//luci per piedistallo e tesoro
+
+
+			const color = 0xFFFFFF;
+			const intensity = 1;
+			const light = new THREE.DirectionalLight(color, intensity);
+			light.position.set(7, 5, 5);
+			light.target.position.set(5, 7, 0);
+
+			scene.add(light);
+			scene.add(light.target);
+
+
+			const light1 = new THREE.DirectionalLight(color, intensity);
+			light1.position.set(3, 10, 5);
+			light1.target.position.set(5, 7, 0);
+
+			scene.add(light1);
+			scene.add(light1.target);
+
+			const sunLight = new THREE.DirectionalLight(color, intensity);
+			sunLight.position.set(-5, 15, 0);
+			sunLight.target.position.set(5, 8, -0.8);
+			scene.add(sunLight);
+			scene.add(sunLight.target);
+
+			//
+
+			const geometryPiedistallo = new THREE.BoxGeometry(0.4, 0.5, 0.4)
+			const piedistalloMaterial = new THREE.MeshPhongMaterial({color: 0xF8D00A,
+				//emissive: 0xF8D00A,
+				//emissiveIntensity: 0.1,
+				shininess: 130,
+				flatShading: true,
+
+			});
+			//piedistalloMaterial.shininess = 150;
+			//piedistalloMaterial.emissive = 0xF8D00A;
+			const piedistallo = new THREE.Mesh(geometryPiedistallo, piedistalloMaterial);
+			piedistallo.position.x = 5;
+			piedistallo.position.y = 6.75;
+			piedistallo.position.z = 0;
+			scene.add(piedistallo);
+
+			//tesoro
+			const geometryTesoro = new THREE.OctahedronGeometry(0.15, 1);
+			const tesoroMaterial = new THREE.MeshPhongMaterial({
+				//color: 0x13DF83,
+				map: loader.load('./resources/emerald.png'),
+				shininess: 130,
+				flatShading: true,
+				});
+				const tesoro = new THREE.Mesh(geometryTesoro, tesoroMaterial);
+				tesoro.position.x = 5;
+				tesoro.position.y = 7.3;
+				tesoro.position.z = 0;
+				scene.add(tesoro);
+
+
+
+
+
+			//capocchia con gerarchie
+			const geometryTesta = new THREE.BoxGeometry(0.15, 0.15, 0.1); //new THREE.SphereGeometry(0.1, 10, 10);
+			const testaMaterial = new THREE.MeshBasicMaterial({color: 0xEAA0A7});
+			const facciaTexture = loader.load('./resources/faccia1.png');
+			const capelliTexture = loader.load('./resources/capelli.png');
+			const facciaText = new THREE.MeshBasicMaterial({
+				map: facciaTexture,
+			});
+
+			const facciaMaterials = [
+				new THREE.MeshBasicMaterial({
+				 map: capelliTexture,
+				}),
+				new THREE.MeshBasicMaterial({
+ 			  map: capelliTexture,
+ 			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: capelliTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: capelliTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: facciaTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: capelliTexture,
+			 }),
+
+			];
+
+			const testa = new THREE.Mesh(geometryTesta, facciaMaterials);
+
+			capelliTexture.wrapS = THREE.RepeatWrapping;
+			capelliTexture.wrapS = THREE.RepeatWrapping;
+			capelliTexture.repeat.set(1,1.5);
+
+			//facciaTexture.center.set(0, 1);
+			//facciaTexture.rotation = THREE.MathUtils.degToRad(30);
+
+
+			testa.position.y = 0.86;
+			testa.position.x = -5.5;
+			testa.position.z = 2.5;
+			testa.rotation.y = 1.5;
+
+			//testa.rotation.y = -1.6;
+
+			scene.add(testa);
+
+			const geometryCollo = new THREE.BoxGeometry(0.1, 0.03, 0.05);
+			const colloTexture = new THREE.MeshBasicMaterial({
+				map: loader.load('./resources/pelle.png'),
+			});
+			const collo = new THREE.Mesh(geometryCollo, colloTexture);
+			collo.position.y = -0.09;
+
+			testa.add(collo);
+
+			//body
+			const geometryBody = new THREE.BoxGeometry(0.3, 0.35, 0.1);
+			const bodyMaterial = new THREE.MeshBasicMaterial({color: 0xF1EFC3});
+			const body = new THREE.Mesh(geometryBody, bodyMaterial);
+			body.position.y = -0.27;
+
+			testa.add(body);
+
+			//legs altezza totale deve essere 0.4
+			const geometryUpperLeg = new THREE.BoxGeometry(0.1, 0.25, 0.1);
+			const legMaterial = new THREE.MeshBasicMaterial({color: 0x46579E});
+			const leftUpperLeg = new THREE.Mesh(geometryUpperLeg, legMaterial);
+			const rightUpperLeg = new THREE.Mesh(geometryUpperLeg, legMaterial);
+			testa.add(leftUpperLeg);
+			testa.add(rightUpperLeg);
+			leftUpperLeg.position.x = -0.1;
+			leftUpperLeg.position.y = -0.57;
+			rightUpperLeg.position.x = 0.1;
+			rightUpperLeg.position.y = -0.57;
+
+			const geometryLowerLeg = new THREE.BoxGeometry(0.1, 0.2, 0.1);
+			const leftLowerLeg = new THREE.Mesh(geometryLowerLeg, legMaterial);
+			const rightLowerLeg = new THREE.Mesh(geometryLowerLeg, legMaterial);
+			leftUpperLeg.add(leftLowerLeg);
+			rightUpperLeg.add(rightLowerLeg);
+			leftLowerLeg.position.x = 0.0;
+			leftLowerLeg.position.y = -0.13;
+			rightLowerLeg.position.x = 0.0;
+			rightLowerLeg.position.y = -0.13;
+
+			//rightLowerLeg.rotation.x = 0.60;
+			//rightUpperLeg.rotation.x =-1;
+
+			//arms
+			const geometryUpperArm = new THREE.BoxGeometry(0.080, 0.15, 0.08);
+			const armMaterial = new THREE.MeshBasicMaterial({color: 0xEAA0A7});
+			const armTexture = new THREE.MeshBasicMaterial({
+				map: loader.load('./resources/pelle.png'),
+			});
+			const leftUpperArm = new THREE.Mesh(geometryUpperArm, armTexture);
+			const rightUpperArm = new THREE.Mesh(geometryUpperArm, armTexture);
+			testa.add(leftUpperArm);
+			testa.add(rightUpperArm);
+			leftUpperArm.position.x = -0.2;
+			rightUpperArm.position.x = 0.2;
+			leftUpperArm.position.y = -0.2;
+			rightUpperArm.position.y = -0.2;
+
+			const geometryLowerArm = new THREE.BoxGeometry(0.080, 0.15, 0.08);
+			const leftLowerArm = new THREE.Mesh(geometryLowerArm, armTexture);
+			const rightLowerArm = new THREE.Mesh(geometryLowerArm, armTexture);
+			rightUpperArm.add(rightLowerArm);
+			leftUpperArm.add(leftLowerArm);
+			leftLowerArm.position.x = -0.0;
+			rightLowerArm.position.x = 0.0;
+			leftLowerArm.position.y = -0.1;
+			rightLowerArm.position.y = -0.1;
+
+
+			//backpack
+			const geometryBackpack = new THREE.BoxGeometry(0.2, 0.3, 0.1);
+			const backPackMaterial = new THREE.MeshBasicMaterial({color: 0x4B3A07});
+			const backpack = new THREE.Mesh(geometryBackpack, backPackMaterial);
+			testa.add(backpack);
+			backpack.position.x = 0;
+			backpack.position.y = -0.23;
+			backpack.position.z = -0.1;
+
+			//TIGRE
+
+			//testa
+			const geometryTestaTigre = new THREE.BoxGeometry(0.15, 0.2, 0.2);
+			const testaTigreTexture = new THREE.MeshBasicMaterial({
+				//map: loader.load(''),
+				//color: 0xF7731E,
+				map: loader.load('./resources/tigre2.png'),
+			});
+			const tigreTexture = loader.load('./resources/tigre2.png');
+			const facciaTigreTexture = loader.load('./resources/facciaTigre.png');
+
+			const testaTigreMaterials = [
+				new THREE.MeshBasicMaterial({
+				 map: tigreTexture,
+				}),
+				new THREE.MeshBasicMaterial({
+ 			  map: facciaTigreTexture,
+ 			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+		 ];
+
+			const testaTigre = new THREE.Mesh(geometryTestaTigre, testaTigreMaterials);
+			scene.add(testaTigre);
+			testaTigre.position.x = 1;
+			testaTigre.position.y = 0.4;
+
+			//orecchie
+			const geometryOrecchioTigre = new THREE.BoxGeometry(0.05, 0.05, 0.05);
+			//const tigreTexture = loader.load('tigre2.png');
+			const coloreTigreTexture = new THREE.MeshBasicMaterial({
+				map: tigreTexture,
+			});
+			const orecchioTexture = loader.load('./resources/pelle.png');
+
+			const orecchieMaterials = [
+				new THREE.MeshBasicMaterial({
+				 map: tigreTexture,
+				}),
+				new THREE.MeshBasicMaterial({
+ 			  map: orecchioTexture,
+ 			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+			 new THREE.MeshBasicMaterial({
+			  map: tigreTexture,
+			 }),
+
+			];
+
+			const orecchioDXTigre = new THREE.Mesh(geometryOrecchioTigre, orecchieMaterials);
+			testaTigre.add(orecchioDXTigre);
+			orecchioDXTigre.position.y = 0.12;
+			orecchioDXTigre.position.z = -0.1;
+
+			tigreTexture.wrapS = THREE.RepeatWrapping;
+			tigreTexture.wrapT = THREE.RepeatWrapping;
+			tigreTexture.repeat.set(0.1,1);
+
+			const orecchioSXTigre = new THREE.Mesh(geometryOrecchioTigre, orecchieMaterials);
+			testaTigre.add(orecchioSXTigre);
+			orecchioSXTigre.position.y= 0.12;
+			orecchioSXTigre.position.z = 0.1;
+
+			//corpo
+			const geometryBodyTigre = new THREE.BoxGeometry(0.5, 0.2, 0.2);
+			const bodyTigre = new THREE.Mesh(geometryBodyTigre, testaTigreTexture);
+			testaTigre.add(bodyTigre);
+			bodyTigre.position.x = 0.326;
+			bodyTigre.position.y = -0.1;
+
+			//zampe posteriori
+			const geometryZampeTigre = new THREE.BoxGeometry(0.06, 0.3, 0.06);
+			const zampaPostDXTigre = new THREE.Mesh(geometryZampeTigre, coloreTigreTexture);
+			testaTigre.add(zampaPostDXTigre);
+			zampaPostDXTigre.position.y = -0.2;
+			zampaPostDXTigre.position.x = 0.47;
+			zampaPostDXTigre.position.z = -0.12;
+
+			const zampaPostSXTigre = new THREE.Mesh(geometryZampeTigre, coloreTigreTexture);
+			testaTigre.add(zampaPostSXTigre);
+			zampaPostSXTigre.position.y = -0.2;
+			zampaPostSXTigre.position.x = 0.47;
+			zampaPostSXTigre.position.z = 0.12;
+
+			//zampe anteriori
+			const zampaAntDXTigre = new THREE.Mesh(geometryZampeTigre, coloreTigreTexture);
+			testaTigre.add(zampaAntDXTigre);
+			zampaAntDXTigre.position.y = -0.2;
+			zampaAntDXTigre.position.z = -0.12;
+			zampaAntDXTigre.position.x = 0.1;
+
+			const zampaAntSXTigre = new THREE.Mesh(geometryZampeTigre, coloreTigreTexture);
+			testaTigre.add(zampaAntSXTigre);
+			zampaAntSXTigre.position.y = -0.2;
+			zampaAntSXTigre.position.z = 0.12;
+			zampaAntSXTigre.position.x = 0.1;
+
+			//coda
+			class CustomSinCurve extends THREE.Curve {
+  		constructor(scale) {
+    	super();
+    	this.scale = scale;
+  	}
+  	getPoint(t) {
+    const tx = t * 3 - 1.5;
+    const ty = Math.sin(2 * Math.PI * t);
+    const tz = 0;
+    return new THREE.Vector3(tx, ty, tz).multiplyScalar(this.scale);
+  	}
+	}
+
+	const path = new CustomSinCurve(0.1);
+	const tubularSegments = 100;
+
+	const radius =  0.02;
+
+	const radialSegments = 30;
+
+	const closed = false;
+
+	const geometryCodaTigre = new THREE.TubeGeometry(
+		    path, tubularSegments, radius, radialSegments, closed);//new THREE.CylinderGeometry(0.02, 0.02, 0.3, 30);
+	const codaTigre = new THREE.Mesh(geometryCodaTigre, testaTigreTexture);
+	testaTigre.add(codaTigre);
+	codaTigre.position.y = 0.056;
+	codaTigre.position.x = 0.65;
+	codaTigre.rotation.z = -0.5;
+	codaTigre.rotation.x = 3.15;
+
+
+
+			//	camera.position.z = 5; //lo faccio per spostare la comera dal cubo senno sarebbero uno dentro l'altro
+		//	camera.position.y = 3;
+
+		//Musica
+		var audioLoader = new THREE.AudioLoader();
+    var listener = new THREE.AudioListener();
+    var audio = new THREE.Audio(listener);
+		var audio1 = new THREE.Audio(listener);
+		var audio2 = new THREE.Audio(listener);
+    audioLoader.load('./resources/AmbientMusic.mp3', function(buffer) {
+        audio.setBuffer(buffer);
+        audio.setLoop(true);
+        //audio.play();
+    });
+		audioLoader.load('./resources/winMusic.mp3', function(buffer){
+			audio1.setBuffer(buffer);
+			audio1.setLoop(false);
+		});
+		audioLoader.load('./resources/tigersound.mp3', function(buffer){
+			audio2.setBuffer(buffer);
+			audio2.setLoop(false);
+		});
+
+		//
+
+
+			//Animation
+
+			var groupNate = new TWEEN.Group();
+			function animazione(){
+
+			var tween = new TWEEN.Tween(testa.position, groupNate).to({x: -4}, 2000);
+		//	var tween1 = new TWEEN.Tween(testa.position).to({z: -1}, 2000);
+		//	var tween2 = new TWEEN.Tween(testa.position).to({x: 0}, 2000);
+		//	var tween3 = new TWEEN.Tween(testa.position).to({z: 0}, 2000);
+
+			var tweenleg4 = new TWEEN.Tween(rightUpperLeg.rotation, groupNate).to({x: 0.5}, 1000);
+			var tweenleg5 = new TWEEN.Tween(rightUpperLeg.rotation, groupNate).to({x: 0}, 500);
+			var tweenleg6 = new TWEEN.Tween(rightUpperLeg.rotation, groupNate).to({x: -0.5}, 500);
+
+			var tweenleg7 = new TWEEN.Tween(leftUpperLeg.rotation, groupNate).to({x: 0.5}, 500);
+			var tweenleg8 = new TWEEN.Tween(leftUpperLeg.rotation, groupNate).to({x: 0}, 500);
+			var tweenleg9 = new TWEEN.Tween(leftUpperLeg.rotation, groupNate).to({x: -0.5}, 1000);
+
+			tween.start();
+
+// ANIMAZIONE FUNZIONANTE CON GAMBE SINGOLE (TUTTE UN BLOCCO)
+			tweenleg6.start();
+			tweenleg6.chain(tweenleg4);
+			tweenleg4.chain(tweenleg5);
+			tweenleg5.chain(tweenleg6);
+
+			tweenleg7.start();
+			tweenleg7.chain(tweenleg9);
+			tweenleg9.chain(tweenleg8);
+			tweenleg8.chain(tweenleg7);
+
+			var tweenarm1 = new TWEEN.Tween(rightUpperArm.rotation, groupNate).to({x: -0.5}, 1000);
+			var tweenarm2 = new TWEEN.Tween(rightUpperArm.rotation, groupNate).to({x: 0}, 500);
+			var tweenarm3 = new TWEEN.Tween(rightUpperArm.rotation, groupNate).to({x: 0.5}, 500);
+
+			var tweenarm4 = new TWEEN.Tween(leftUpperArm.rotation, groupNate).to({x: -0.5}, 500);
+			var tweenarm5 = new TWEEN.Tween(leftUpperArm.rotation, groupNate).to({x: 0}, 500);
+			var tweenarm6 = new TWEEN.Tween(leftUpperArm.rotation, groupNate).to({x: 0.5}, 1000);
+
+			tweenarm3.start();
+			tweenarm3.chain(tweenarm1);
+			tweenarm1.chain(tweenarm2);
+			tweenarm2.chain(tweenarm3);
+
+			tweenarm4.start();
+			tweenarm4.chain(tweenarm6);
+			tweenarm6.chain(tweenarm5);
+			tweenarm5.chain(tweenarm4);
+
+			var tweenJump1 = new TWEEN.Tween(testa.position, groupNate).to({y: 1.5, x: -3.7}, 700);
+			var tweenJump2 = new TWEEN.Tween(testa.position, groupNate).to({y: 1.4 , x: -3.4}, 500);
+
+			//var tweenUpLegToJump = new TWEEN.Tween(rightUpperLeg.rotation).to({x: -1}, 500);
+			//var tweenLowLegToJump = new TWEEN.Tween(rightLowerLeg.rotation).to({x: 0.6}, 500);
+			//var tweenLeftArmToJump = new TWEEN.Tween(leftUpperArm.rotation).to({x: -3}, 500);
+
+
+			//tween.chain(tweenUpLegToJump);
+			//tweenUpLegToJump.chain(tweenLowLegToJump);
+			//tweenLowLegToJump.chain(tweenLeftArmToJump);
+
+			tween.chain(tweenJump1);
+
+			tweenJump1.chain(tweenJump2);
+
+			var tweenToPlat1 = new TWEEN.Tween(testa.position, groupNate).to({y:2, x:-3}, 700);
+			var tweenToPlat1Down = new TWEEN.Tween(testa.position, groupNate).to({y:1.8, x:-2.8}, 500);
+
+			tweenJump2.chain(tweenToPlat1);
+			tweenToPlat1.chain(tweenToPlat1Down);
+
+
+			var tweenToBridge1 = new TWEEN.Tween(testa.position, groupNate).to({z: 3.2, x: -1.5}, 2000);
+			var tweenToBridge2 = new TWEEN.Tween(testa.rotation, groupNate).to({y: 1}, 500);
+			tweenToPlat1Down.chain(tweenToBridge2);
+			tweenToBridge2.chain(tweenToBridge1);
+			var tweenOnBridge1 = new TWEEN.Tween(testa.rotation, groupNate).to({y: 2.1}, 500);
+			tweenToBridge1.chain(tweenOnBridge1);
+			var tweenOnBridge2 = new TWEEN.Tween(testa.position, groupNate).to({z: 3, x: -1}, 1000);
+			tweenOnBridge1.chain(tweenOnBridge2);
+			var tweenOnBridge3 = new TWEEN.Tween(testa.position, groupNate).to({x:2.2, y:3.5, z:1}, 4500);
+			tweenOnBridge2.chain(tweenOnBridge3);
+			var tweenOnBridge4 = new TWEEN.Tween(testa.position, groupNate).to({y:3.3}, 400);
+			tweenOnBridge3.chain(tweenOnBridge4);
+			var tweenToPlat3 = new TWEEN.Tween(testa.position, groupNate).to({z: -0.1, x: 3.5}, 2000);
+			tweenOnBridge4.chain(tweenToPlat3);
+			var tweenRotateToPlat3 = new TWEEN.Tween(testa.rotation, groupNate).to({y: 3.1}, 400);
+			tweenToPlat3.chain(tweenRotateToPlat3);
+			var tweenJumpToPlat3 = new TWEEN.Tween(testa.position, groupNate).to({z: -1.5, y:4 }, 1500);
+			tweenRotateToPlat3.chain(tweenJumpToPlat3);
+			var tweenDownToPlat3 = new TWEEN.Tween(testa.position, groupNate).to({y: 3.8}, 400);
+			tweenJumpToPlat3.chain(tweenDownToPlat3);
+			var tweenOnPlat3 = new TWEEN.Tween(testa.position, groupNate).to({z: -2.5}, 1000);
+			tweenDownToPlat3.chain(tweenOnPlat3);
+			var tweenRotateOnPlat3 = new TWEEN.Tween(testa.rotation, groupNate).to({y: 4.7}, 500);
+			tweenOnPlat3.chain(tweenRotateOnPlat3);
+			var tweenToPlat4 = new TWEEN.Tween(testa.position, groupNate).to({x: -3.5}, 5000);
+			tweenRotateOnPlat3.chain(tweenToPlat4);
+			var tweenRotateOnPlat4 = new TWEEN.Tween(testa.rotation, groupNate).to({y: 6.3}, 500);
+			tweenToPlat4.chain(tweenRotateOnPlat4);
+			var tweenToJumpPlat1 = new TWEEN.Tween(testa.position, groupNate).to({z: -1}, 1000);
+			tweenRotateOnPlat4.chain(tweenToJumpPlat1);
+			var tweenToJumpPlat2 = new TWEEN.Tween(testa.position, groupNate).to({y:4.5, z: -0.5}, 800);
+			tweenToJumpPlat1.chain(tweenToJumpPlat2);
+			var tweenDownToJumpPlat2 = new TWEEN.Tween(testa.position, groupNate).to({y:4.35, z: 0}, 500);
+			tweenToJumpPlat2.chain(tweenDownToJumpPlat2);
+			var tweenToJumpPlat3 = new TWEEN.Tween(testa.position, groupNate).to({y:5, z: 0.7}, 800);
+			tweenDownToJumpPlat2.chain(tweenToJumpPlat3);
+			var tweenDownToJumpPlat3 = new TWEEN.Tween(testa.position, groupNate).to({y:4.85, z: 0.9}, 500);
+			tweenToJumpPlat3.chain(tweenDownToJumpPlat3);
+			var tweenToJumpPlat4 = new TWEEN.Tween(testa.position, groupNate).to({y:5.5, z: 1.5}, 800);
+			tweenDownToJumpPlat3.chain(tweenToJumpPlat4);
+			var tweenDownToJumpPlat4 = new TWEEN.Tween(testa.position, groupNate).to({y:5.35, z:1.9}, 500);
+			tweenToJumpPlat4.chain(tweenDownToJumpPlat4);
+			var tweenToJumpPlat5 = new TWEEN.Tween(testa.position, groupNate).to({y:6, z: 2.5}, 800);
+			tweenDownToJumpPlat4.chain(tweenToJumpPlat5);
+			var tweenDownToJumpPlat5 = new TWEEN.Tween(testa.position, groupNate).to({y:5.8, z:3}, 500);
+			tweenToJumpPlat5.chain(tweenDownToJumpPlat5);
+			var tweenToSmallJump = new TWEEN.Tween(testa.position, groupNate).to({z: 3.6}, 700);
+			tweenDownToJumpPlat5.chain(tweenToSmallJump);
+			var tweenRotateToSmallJump = new TWEEN.Tween(testa.rotation, groupNate).to({y:8.5}, 500);
+			tweenToSmallJump.chain(tweenRotateToSmallJump);
+			var tweenSmallJump1 = new TWEEN.Tween(testa.position, groupNate).to({x:-2.5, z:3.2}, 800);
+			tweenRotateToSmallJump.chain(tweenSmallJump1);
+			var tweenSmallJump2 = new TWEEN.Tween(testa.position, groupNate).to({x:-1, y:6.2, z:2}, 1500);
+			tweenSmallJump1.chain(tweenSmallJump2);
+			var tweenSmallJump3 = new TWEEN.Tween(testa.position, groupNate).to({x:-0.4, y:5.8, z:1.9}, 600);
+			tweenSmallJump2.chain(tweenSmallJump3);
+			var tweenRotateOnSmallJump = new TWEEN.Tween(testa.rotation, groupNate).to({y:7}, 500);
+			tweenSmallJump3.chain(tweenRotateOnSmallJump);
+			var tweenJumpToLastPlat = new TWEEN.Tween(testa.position, groupNate).to({x:1.2, y:6.7, z:3.3}, 1500);
+			tweenRotateOnSmallJump.chain(tweenJumpToLastPlat);
+			var tweenDownToLastPlat = new TWEEN.Tween(testa.position, groupNate).to({y:6.55}, 500);
+			tweenJumpToLastPlat.chain(tweenDownToLastPlat);
+			var tweenToLastBridge = new TWEEN.Tween(testa.position, groupNate).to({x:1.5, z:3.6}, 700);
+			tweenDownToLastPlat.chain(tweenToLastBridge);
+			var tweenRotateToLastBridge = new TWEEN.Tween(testa.rotation, groupNate).to({y:8.35}, 500);
+			tweenToLastBridge.chain(tweenRotateToLastBridge);
+			var tweenApproachLastBridge = new TWEEN.Tween(testa.position, groupNate).to({x:1.9, z:3.5}, 700);
+			tweenRotateToLastBridge.chain(tweenApproachLastBridge);
+			var tweenOnLastBridge = new TWEEN.Tween(testa.position, groupNate).to({x:3.6, y:7.55, z:2.6}, 3500);
+			tweenApproachLastBridge.chain(tweenOnLastBridge);
+			var tweenDownToFinal = new TWEEN.Tween(testa.position, groupNate).to({x:4.1, y:7.3, z:2.4}, 500);
+			tweenOnLastBridge.chain(tweenDownToFinal);
+			var tweenRotateOnFinal = new TWEEN.Tween(testa.rotation, groupNate).to({y:7.9}, 500);
+			tweenDownToFinal.chain(tweenRotateOnFinal);
+			var tweenAdjustOnFinal = new TWEEN.Tween(testa.position, groupNate).to({x:5}, 800);
+			tweenRotateOnFinal.chain(tweenAdjustOnFinal);
+			var tweenRotateOnFinal1 = new TWEEN.Tween(testa.rotation, groupNate).to({y:9.45}, 500);
+			tweenAdjustOnFinal.chain(tweenRotateOnFinal1);
+			var tweenGoToWin = new TWEEN.Tween(testa.position, groupNate).to({z:1}, 1500);
+			tweenRotateOnFinal1.chain(tweenGoToWin);
+			tweenGoToWin.onComplete(function(){ audio.stop(); audio1.play() });
+			var tweenRotateToCheer = new TWEEN.Tween(testa.rotation, groupNate).to({y:0}, 900);
+			tweenGoToWin.chain(tweenRotateToCheer);
+			var tweenJumpToCheer = new TWEEN.Tween(testa.position, groupNate).to({y:7.45}, 600);
+			var tweenDownToCheer = new TWEEN.Tween(testa.position, groupNate).to({y:7.3}, 600);
+			tweenRotateToCheer.chain(tweenJumpToCheer);
+			tweenJumpToCheer.chain(tweenDownToCheer);
+			tweenDownToCheer.chain(tweenRotateToCheer);
+
+		}
+		//
+
+		//Animazione TIGRE
+		function animaTigre() {
+		var tweenlegtigre4 = new TWEEN.Tween(zampaPostDXTigre.rotation).to({z: -0.5}, 1000);
+		var tweenlegtigre5 = new TWEEN.Tween(zampaPostDXTigre.rotation).to({z: 0}, 500);
+		var tweenlegtigre6 = new TWEEN.Tween(zampaPostDXTigre.rotation).to({z: 0.5}, 500);
+
+		var tweenlegtigre7 = new TWEEN.Tween(zampaPostSXTigre.rotation).to({z: -0.5}, 500);
+		var tweenlegtigre8 = new TWEEN.Tween(zampaPostSXTigre.rotation).to({z: 0}, 500);
+		var tweenlegtigre9 = new TWEEN.Tween(zampaPostSXTigre.rotation).to({z: 0.5}, 1000);
+
+
+
+// ANIMAZIONE FUNZIONANTE CON GAMBE SINGOLE (TUTTE UN BLOCCO)
+		var groupTiger = new TWEEN.Group();
+
+		tweenlegtigre6.start();
+		tweenlegtigre6.chain(tweenlegtigre4);
+		tweenlegtigre4.chain(tweenlegtigre5);
+		tweenlegtigre5.chain(tweenlegtigre6);
+
+		tweenlegtigre7.start();
+		tweenlegtigre7.chain(tweenlegtigre9);
+		tweenlegtigre9.chain(tweenlegtigre8);
+		tweenlegtigre8.chain(tweenlegtigre7);
+
+		var tweenarmtigre1 = new TWEEN.Tween(zampaAntDXTigre.rotation).to({z: -0.5}, 1000);
+		var tweenarmtigre2 = new TWEEN.Tween(zampaAntDXTigre.rotation).to({z: 0}, 500);
+		var tweenarmtigre3 = new TWEEN.Tween(zampaAntDXTigre.rotation).to({z: 0.5}, 500);
+
+		var tweenarmtigre4 = new TWEEN.Tween(zampaAntSXTigre.rotation).to({z: -0.5}, 500);
+		var tweenarmtigre5 = new TWEEN.Tween(zampaAntSXTigre.rotation).to({z: 0}, 500);
+		var tweenarmtigre6 = new TWEEN.Tween(zampaAntSXTigre.rotation).to({z: 0.5}, 1000);
+
+		tweenarmtigre3.start();
+		tweenarmtigre3.chain(tweenarmtigre1);
+		tweenarmtigre1.chain(tweenarmtigre2);
+		tweenarmtigre2.chain(tweenarmtigre3);
+
+		tweenarmtigre4.start();
+		tweenarmtigre4.chain(tweenarmtigre6);
+		tweenarmtigre6.chain(tweenarmtigre5);
+		tweenarmtigre5.chain(tweenarmtigre4);
+
+		var tweenmovetiger = new TWEEN.Tween(testaTigre.position).to({x: -3}, 6000);
+		tweenmovetiger.start();
+		var tweenrotatetiger1 = new TWEEN.Tween(testaTigre.rotation).to({y: -1.5}, 900);
+		var tweenmovetiger1 = new TWEEN.Tween(testaTigre.position).to({z: -4}, 5000);
+		tweenmovetiger.chain(tweenrotatetiger1);
+		tweenrotatetiger1.chain(tweenmovetiger1);
+		var tweenmovetiger2 = new TWEEN.Tween(testaTigre.position).to({x: 1}, 6000);
+		var tweenrotatetiger2 = new TWEEN.Tween(testaTigre.rotation).to({y: -3.2}, 900);
+		tweenmovetiger1.chain(tweenrotatetiger2);
+		tweenrotatetiger2.chain(tweenmovetiger2);
+		var tweenrotatetiger3 = new TWEEN.Tween(testaTigre.rotation).to({y: -4.7}, 900);
+		var tweenmovetiger3 = new TWEEN.Tween(testaTigre.position).to({z:0}, 5000);
+		tweenmovetiger2.chain(tweenrotatetiger3);
+		tweenrotatetiger3.chain(tweenmovetiger3);
+		var tweenrotatetiger4 = new TWEEN.Tween(testaTigre.rotation).to({y: -6.3}, 900);
+		tweenmovetiger3.chain(tweenrotatetiger4);
+		tweenrotatetiger4.chain(tweenmovetiger);
+	}
+		//
+
+		//Interfaccia di controllo/ Buttons
+		const gui = new GUI();
+		gui.domElement.id = 'gui';
+
+		var obj = { Start:function(){ animazione(); animaTigre(); audio2.play(); audio.play(); }};
+		var obj1 = {StopTreasureAnimation:function(){ flag = !flag }};
+		var obj2 = {Reset:function(){ groupNate.removeAll(); testa.position.x = -5.5; testa.position.y = 0.86; testa.position.z = 2.5; testa.rotation.y = 1.5; animazione(); audio.play(); }}; //considerare se lasciarla o no
+		var obj3 = {Mute:function(){ audio.setVolume(0) }};
+		var obj4 = {UnMute:function(){ audio.setVolume(1) }};
+		var obj5 = {TreasureLightOFF:function(){ scene.remove(light); scene.remove(light1); }};
+		var obj6 = {TreasureLightON:function(){ scene.add(light); scene.add(light1); }};
+		var obj7 = {SunLightOFF:function(){ scene.remove(sunLight) }};
+		var obj8 = {SunLightON:function(){ scene.add(sunLight) }};
+		var obj9 = {TigerSound:function(){ audio2.play() }};
+
+		gui.add(obj,'Start');
+		gui.add(obj1,'StopTreasureAnimation');
+		gui.add(obj2, 'Reset');
+		gui.add(obj9, 'TigerSound');
+		gui.add(obj3, 'Mute');
+		gui.add(obj4, 'UnMute');
+		gui.add(obj5, 'TreasureLightOFF');
+		gui.add(obj6, 'TreasureLightON');
+		gui.add(obj7, 'SunLightOFF');
+		gui.add(obj8, 'SunLightON');
+
+		//
+
+		//interazione
+
+		//
+
+			function animate() {
+				requestAnimationFrame( animate );
+
+			if(flag){
+				tesoro.rotation.z += 0.01;
+				tesoro.rotation.x += 0.01;
+			}
+
+				groupNate.update();
+				TWEEN.update();
+
+ 				controls.update();
+
+				renderer.render( scene, camera );
+			}
+
+			animate();
+
+		</script>
+	<!--	<button onclick="flag = !flag;"> Rotate </button> -->
+	</body>
+</html>
