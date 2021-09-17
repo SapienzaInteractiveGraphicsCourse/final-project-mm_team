@@ -9,22 +9,15 @@
 		 <link rel="stylesheet" type="text/css" href="index.css"/>
 	</head>
 	<body>
-	<!--	<script src="js/three.js"></script> -->
+
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/tween.js/18.6.4/tween.umd.js" integrity="sha512-lIKG1kC5TMb1Zx32vdz1n31YJMZRknVY20U9MJ28hD3y2c0OKN0Ce5NhJji78v8zX5UOSsm+MTBOcJt7yMBnSg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
-	<!-- <script src='./js/threex.domevent.js'> </script> -->
 		<script type="module">
 
 		 import * as THREE from 'https://cdn.skypack.dev/three@0.132.2';
 		 import { OrbitControls } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/controls/OrbitControls.js';
 		import { GUI } from 'https://cdn.skypack.dev/three@0.132.2/examples/jsm/libs/dat.gui.module.js';
-		//import { Interaction } from './js/three.interaction.js-master/src/interaction/Interaction.js';
-		//import { Interaction } from './three.interaction/src/interaction/Interaction.js';
 
-
-
-			// Our Javascript will go here.
-
-			var flag = true;
+		var flag = true;
 
 			const loader = new THREE.TextureLoader();
 
@@ -38,21 +31,21 @@
 			renderer.setSize( window.innerWidth, window.innerHeight );
 			document.body.appendChild( renderer.domElement );
 
-			//CAMERA DINAMICA (?)
+			//Dynamic camera
 			const controls = new OrbitControls(camera, renderer.domElement);
 
 			camera.position.set(0, 6, 12.5);
 			controls.update();
 
 
-			//PROVE DI PROGETTO: PIATTAFORMA BASE
+			//Platforms
 			const geometryPlane = new THREE.BoxGeometry(13, 0.1, 10);
 			const basePlaneMaterial = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
 
 			const basePlaneTexture = loader.load('./resources/rock2.png');
 			const basePlaneText = new THREE.MeshBasicMaterial({
-			//color: 0xFF8844,
-			map: basePlaneTexture, //loader.load('ground1.png'),
+
+			map: basePlaneTexture,
 			});
 
 			basePlaneTexture.wrapS = THREE.RepeatWrapping;
@@ -62,13 +55,13 @@
 			const basePlane = new THREE.Mesh(geometryPlane, basePlaneText);
 			scene.add(basePlane);
 
-			//piattaforma 1
+			//platform 1
 			const geometryPlat1 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
 			const Plat1Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
 			const platTexture = loader.load('./resources/rock1.png');
 			const platText = new THREE.MeshBasicMaterial({
-			//color: 0xFF8844,
-			map: platTexture, //loader.load('ground1.png'),
+
+			map: platTexture,
 			});
 
 
@@ -97,7 +90,7 @@
 			plat1.position.x = -1.5;
 			scene.add(plat1);
 
-			//piatta 2
+			//platform 2
 			const geometryPlat2 = new THREE.CylinderGeometry(1.5, 1.5, 1, 10);
 			const Plat2Material = new THREE.MeshBasicMaterial( { color: 0x29A01E } );
 			const plat2 = new THREE.Mesh(geometryPlat2, materials);
@@ -113,8 +106,8 @@
 			const bridge1Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
 			const bridgeTexture = loader.load('./resources/bridge.png');
 			const bridgeText = new THREE.MeshBasicMaterial({
-			//color: 0xFF8844,
-			map: bridgeTexture, //loader.load('ground1.png'),
+
+			map: bridgeTexture,
 			});
 
 			bridgeTexture.wrapS = THREE.RepeatWrapping;
@@ -154,9 +147,6 @@
 			bridge6.position.x = 0;
 			bridge6.position.y = 3;
 			bridge6.position.z = -2.6;
-
-			//bridge1.rotation.y = 0.5;
-			//bridge1.rotation.z = 0.43;
 			scene.add(bridge6);
 
 			//piatta 5
@@ -173,8 +163,8 @@
 			const bridge2Material = new THREE.MeshBasicMaterial( { color: 0x7D5716  } );
 			const pedanaTexture = loader.load('./resources/pedana.png');
 			const pedanaText = new THREE.MeshBasicMaterial({
-			//color: 0xFF8844,
-			map: pedanaTexture, //loader.load('ground1.png'),
+
+			map: pedanaTexture,
 		});
 			const bridge2 = new THREE.Mesh(geometryBridge2, pedanaText);
 			bridge2.position.x = -3.5;
@@ -210,8 +200,8 @@
 			const geometryPlat6 = new THREE.BoxGeometry(3, 1, 5);
 			const plat6Texture = loader.load('./resources/rock1.png');
 			const plat6Text = new THREE.MeshBasicMaterial({
-			//color: 0xFF8844,
-			map: plat6Texture, //loader.load('ground1.png'),
+
+			map: plat6Texture,
 			});
 			const plat6 = new THREE.Mesh(geometryPlat6, plat6Text);
 			plat6.position.x = 5;
@@ -248,8 +238,8 @@
 			const colonnaMaterial = new THREE.MeshBasicMaterial( { color: 0x7D716B } );
 			const colonnaTexture =  loader.load('./resources/marmo.png');
 			const colonnaText = new THREE.MeshPhongMaterial({
-			//color: 0xFF8844,
-			map: colonnaTexture, //loader.load('ground1.png'),
+
+			map: colonnaTexture,
 			shininess: 130,
 			flatShading: true,
 			});
@@ -365,8 +355,8 @@
 			const geometryTempio1 = new THREE.CylinderGeometry(0, 2.2, 0.6, 4);
 			const tempio1Texture =  loader.load('./resources/marmo.png');
 			const tempio1Text = new THREE.MeshPhongMaterial({
-			//color: 0xFF8844,
-			map: tempio1Texture, //loader.load('ground1.png'),
+
+			map: tempio1Texture,
 			shininess: 130,
 			flatShading: true,
 			});
@@ -380,10 +370,10 @@
 			tempio1.position.y = 8.05;
 			tempio1.position.z = -0.8;
 			tempio1.rotation.y = -0.76;
-			//tempio1.scale.set(5, 5, 1);
+
 			scene.add(tempio1);
 
-			//elementi di Environmente (PROVVISORIO) alberi, etc...
+			//elementi di Environment
 			const geometryTronco = new THREE.CylinderGeometry(0.1, 0.1, 1.3, 50);
 			const troncoTexture = new THREE.MeshBasicMaterial({
 				map: loader.load('./resources/pedana.png'),
@@ -470,14 +460,12 @@
 
 			const geometryPiedistallo = new THREE.BoxGeometry(0.4, 0.5, 0.4)
 			const piedistalloMaterial = new THREE.MeshPhongMaterial({color: 0xF8D00A,
-				//emissive: 0xF8D00A,
-				//emissiveIntensity: 0.1,
+
 				shininess: 130,
 				flatShading: true,
 
 			});
-			//piedistalloMaterial.shininess = 150;
-			//piedistalloMaterial.emissive = 0xF8D00A;
+
 			const piedistallo = new THREE.Mesh(geometryPiedistallo, piedistalloMaterial);
 			piedistallo.position.x = 5;
 			piedistallo.position.y = 6.75;
@@ -487,7 +475,7 @@
 			//tesoro
 			const geometryTesoro = new THREE.OctahedronGeometry(0.15, 1);
 			const tesoroMaterial = new THREE.MeshPhongMaterial({
-				//color: 0x13DF83,
+
 				map: loader.load('./resources/emerald.png'),
 				shininess: 130,
 				flatShading: true,
@@ -502,8 +490,8 @@
 
 
 
-			//capocchia con gerarchie
-			const geometryTesta = new THREE.BoxGeometry(0.15, 0.15, 0.1); //new THREE.SphereGeometry(0.1, 10, 10);
+			//testa con gerarchie
+			const geometryTesta = new THREE.BoxGeometry(0.15, 0.15, 0.1);
 			const testaMaterial = new THREE.MeshBasicMaterial({color: 0xEAA0A7});
 			const facciaTexture = loader.load('./resources/faccia1.png');
 			const capelliTexture = loader.load('./resources/capelli.png');
@@ -539,16 +527,10 @@
 			capelliTexture.wrapS = THREE.RepeatWrapping;
 			capelliTexture.repeat.set(1,1.5);
 
-			//facciaTexture.center.set(0, 1);
-			//facciaTexture.rotation = THREE.MathUtils.degToRad(30);
-
-
 			testa.position.y = 0.86;
 			testa.position.x = -5.5;
 			testa.position.z = 2.5;
 			testa.rotation.y = 1.5;
-
-			//testa.rotation.y = -1.6;
 
 			scene.add(testa);
 
@@ -591,9 +573,6 @@
 			rightLowerLeg.position.x = 0.0;
 			rightLowerLeg.position.y = -0.13;
 
-			//rightLowerLeg.rotation.x = 0.60;
-			//rightUpperLeg.rotation.x =-1;
-
 			//arms
 			const geometryUpperArm = new THREE.BoxGeometry(0.080, 0.15, 0.08);
 			const armMaterial = new THREE.MeshBasicMaterial({color: 0xEAA0A7});
@@ -629,13 +608,13 @@
 			backpack.position.y = -0.23;
 			backpack.position.z = -0.1;
 
+
 			//TIGRE
 
 			//testa
 			const geometryTestaTigre = new THREE.BoxGeometry(0.15, 0.2, 0.2);
 			const testaTigreTexture = new THREE.MeshBasicMaterial({
-				//map: loader.load(''),
-				//color: 0xF7731E,
+
 				map: loader.load('./resources/tigre2.png'),
 			});
 			const tigreTexture = loader.load('./resources/tigre2.png');
@@ -669,7 +648,7 @@
 
 			//orecchie
 			const geometryOrecchioTigre = new THREE.BoxGeometry(0.05, 0.05, 0.05);
-			//const tigreTexture = loader.load('tigre2.png');
+
 			const coloreTigreTexture = new THREE.MeshBasicMaterial({
 				map: tigreTexture,
 			});
@@ -778,10 +757,6 @@
 	codaTigre.rotation.x = 3.15;
 
 
-
-			//	camera.position.z = 5; //lo faccio per spostare la comera dal cubo senno sarebbero uno dentro l'altro
-		//	camera.position.y = 3;
-
 		//Musica
 		var audioLoader = new THREE.AudioLoader();
     var listener = new THREE.AudioListener();
@@ -791,7 +766,7 @@
     audioLoader.load('./resources/AmbientMusic.mp3', function(buffer) {
         audio.setBuffer(buffer);
         audio.setLoop(true);
-        //audio.play();
+
     });
 		audioLoader.load('./resources/winMusic.mp3', function(buffer){
 			audio1.setBuffer(buffer);
@@ -811,9 +786,7 @@
 			function animazione(){
 
 			var tween = new TWEEN.Tween(testa.position, groupNate).to({x: -4}, 2000);
-		//	var tween1 = new TWEEN.Tween(testa.position).to({z: -1}, 2000);
-		//	var tween2 = new TWEEN.Tween(testa.position).to({x: 0}, 2000);
-		//	var tween3 = new TWEEN.Tween(testa.position).to({z: 0}, 2000);
+
 
 			var tweenleg4 = new TWEEN.Tween(rightUpperLeg.rotation, groupNate).to({x: 0.5}, 1000);
 			var tweenleg5 = new TWEEN.Tween(rightUpperLeg.rotation, groupNate).to({x: 0}, 500);
@@ -825,7 +798,7 @@
 
 			tween.start();
 
-// ANIMAZIONE FUNZIONANTE CON GAMBE SINGOLE (TUTTE UN BLOCCO)
+// ANIMAZIONE GAMBE e BRACCIA
 			tweenleg6.start();
 			tweenleg6.chain(tweenleg4);
 			tweenleg4.chain(tweenleg5);
@@ -857,14 +830,7 @@
 			var tweenJump1 = new TWEEN.Tween(testa.position, groupNate).to({y: 1.5, x: -3.7}, 700);
 			var tweenJump2 = new TWEEN.Tween(testa.position, groupNate).to({y: 1.4 , x: -3.4}, 500);
 
-			//var tweenUpLegToJump = new TWEEN.Tween(rightUpperLeg.rotation).to({x: -1}, 500);
-			//var tweenLowLegToJump = new TWEEN.Tween(rightLowerLeg.rotation).to({x: 0.6}, 500);
-			//var tweenLeftArmToJump = new TWEEN.Tween(leftUpperArm.rotation).to({x: -3}, 500);
 
-
-			//tween.chain(tweenUpLegToJump);
-			//tweenUpLegToJump.chain(tweenLowLegToJump);
-			//tweenLowLegToJump.chain(tweenLeftArmToJump);
 
 			tween.chain(tweenJump1);
 
@@ -981,7 +947,7 @@
 
 
 
-// ANIMAZIONE FUNZIONANTE CON GAMBE SINGOLE (TUTTE UN BLOCCO)
+// ANIMAZIONE ZAMPE TIGRE
 		var groupTiger = new TWEEN.Group();
 
 		tweenlegtigre6.start();
@@ -1029,6 +995,14 @@
 		var tweenrotatetiger4 = new TWEEN.Tween(testaTigre.rotation).to({y: -6.3}, 900);
 		tweenmovetiger3.chain(tweenrotatetiger4);
 		tweenrotatetiger4.chain(tweenmovetiger);
+
+		var tweenWiggle = new TWEEN.Tween(codaTigre.rotation).to({x:3.4}, 500);
+		var tweenWiggle1 = new TWEEN.Tween(codaTigre.rotation).to({x:2.9}, 1000);
+		tweenWiggle.start();
+		tweenWiggle.chain(tweenWiggle1);
+		var tweenWiggle2 = new TWEEN.Tween(codaTigre.rotation).to({x:3.15}, 500);
+		tweenWiggle1.chain(tweenWiggle2);
+		tweenWiggle2.chain(tweenWiggle);
 	}
 		//
 
@@ -1037,7 +1011,7 @@
 		gui.domElement.id = 'gui';
 
 		var obj = { Start:function(){ animazione(); animaTigre(); audio2.play(); audio.play(); }};
-		var obj1 = {StopTreasureAnimation:function(){ flag = !flag }};
+		var obj1 = {TreasureAnimation:function(){ flag = !flag }};
 		var obj2 = {Reset:function(){ groupNate.removeAll(); testa.position.x = -5.5; testa.position.y = 0.86; testa.position.z = 2.5; testa.rotation.y = 1.5; animazione(); audio.play(); }}; //considerare se lasciarla o no
 		var obj3 = {Mute:function(){ audio.setVolume(0) }};
 		var obj4 = {UnMute:function(){ audio.setVolume(1) }};
@@ -1048,7 +1022,7 @@
 		var obj9 = {TigerSound:function(){ audio2.play() }};
 
 		gui.add(obj,'Start');
-		gui.add(obj1,'StopTreasureAnimation');
+		gui.add(obj1,'TreasureAnimation');
 		gui.add(obj2, 'Reset');
 		gui.add(obj9, 'TigerSound');
 		gui.add(obj3, 'Mute');
@@ -1083,6 +1057,6 @@
 			animate();
 
 		</script>
-	<!--	<button onclick="flag = !flag;"> Rotate </button> -->
+
 	</body>
 </html>
