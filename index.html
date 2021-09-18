@@ -1012,7 +1012,10 @@
 
 		var obj = { Start:function(){ animazione(); animaTigre(); audio2.play(); audio.play(); }};
 		var obj1 = {TreasureAnimation:function(){ flag = !flag }};
-		var obj2 = {Reset:function(){ groupNate.removeAll(); testa.position.x = -5.5; testa.position.y = 0.86; testa.position.z = 2.5; testa.rotation.y = 1.5; animazione(); audio.play(); }}; //considerare se lasciarla o no
+		var obj2 = {Reset:function(){ groupNate.removeAll();
+
+			rightUpperLeg.rotation.x = 0; leftUpperLeg.rotation.x = 0; rightUpperArm.rotation.x = 0; leftUpperArm.rotation.x = 0;
+			testa.position.x = -5.5; testa.position.y = 0.86; testa.position.z = 2.5; testa.rotation.y = 1.5; setTimeout(function(){animazione();}, 500); audio.play(); }}; //considerare se lasciarla o no
 		var obj3 = {Mute:function(){ audio.setVolume(0) }};
 		var obj4 = {UnMute:function(){ audio.setVolume(1) }};
 		var obj5 = {TreasureLightOFF:function(){ scene.remove(light); scene.remove(light1); }};
