@@ -5,6 +5,9 @@ Watch Nate making his last effort to reach the ancient treasure!
 # Team
 Michele Manglaviti, 1964287
 
+# Student's mail
+manglaviti.1964287@studenti.uniroma1.it
+
 # Link
 https://sapienzainteractivegraphicscourse.github.io/final-project-mm_team/
 
