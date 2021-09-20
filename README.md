@@ -11,6 +11,9 @@ manglaviti.1964287@studenti.uniroma1.it
 # Link
 https://sapienzainteractivegraphicscourse.github.io/final-project-mm_team/
 
+# Report
+https://github.com/SapienzaInteractiveGraphicsCourse/final-project-mm_team/blob/main/IG-final%20project-Nate's%20Adventure-MicheleManglaviti.pdf
+
 # Tutorial
 **Hold LEFT mouse button and move**: Rotate camera.
 
